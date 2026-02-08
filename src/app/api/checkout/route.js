@@ -8,8 +8,12 @@ export async function POST(req) {
         const { cart, orderDetails } = await req.json();
         const origin = req.headers.get('origin') || 'http://localhost:3000';
 
+        console.log('DEBUG Check - STRIPE_SECRET_KEY exists:', !!process.env.STRIPE_SECRET_KEY);
+        console.log('DEBUG Check - KEY length:', process.env.STRIPE_SECRET_KEY?.length);
+        console.log('DEBUG Check - Keys present:', Object.keys(process.env).filter(k => k.includes('STRIPE')));
+
         if (!stripe) {
-            throw new Error('STRIPE_SECRET_KEY is missing');
+            throw new Error(`STRIPE_SECRET_KEY is missing. Keys found: ${Object.keys(process.env).filter(k => k.includes('STRIPE')).join(', ')}`);
         }
 
         const session = await stripe.checkout.sessions.create({
