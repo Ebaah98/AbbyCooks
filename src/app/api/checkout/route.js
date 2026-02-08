@@ -1,20 +1,26 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY.trim()) : null;
-
 export async function POST(req) {
     try {
         const { cart, orderDetails } = await req.json();
         const origin = req.headers.get('origin') || 'http://localhost:3000';
 
-        console.log('DEBUG Check - STRIPE_SECRET_KEY exists:', !!process.env.STRIPE_SECRET_KEY);
-        console.log('DEBUG Check - KEY length:', process.env.STRIPE_SECRET_KEY?.length);
-        console.log('DEBUG Check - Keys present:', Object.keys(process.env).filter(k => k.includes('STRIPE')));
+        const secretKey = process.env.STRIPE_SECRET_KEY;
+        const stripeKeys = Object.keys(process.env).filter(k => k.includes('STRIPE'));
 
-        if (!stripe) {
-            throw new Error(`STRIPE_SECRET_KEY is missing. Keys found: ${Object.keys(process.env).filter(k => k.includes('STRIPE')).join(', ')}`);
+        console.log('DEBUG - STRIPE_SECRET_KEY present:', !!secretKey);
+        console.log('DEBUG - All env keys starting with STRIPE:', stripeKeys);
+
+        if (!secretKey) {
+            return NextResponse.json({
+                statusCode: 500,
+                message: `STRIPE_SECRET_KEY is missing in environment. Found keys: ${stripeKeys.join(', ') || 'none'}`
+            }, { status: 500 });
         }
+
+        const stripe = new Stripe(secretKey.trim());
+
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
