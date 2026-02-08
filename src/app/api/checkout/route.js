@@ -9,8 +9,7 @@ export async function POST(req) {
         const origin = req.headers.get('origin') || 'http://localhost:3000';
 
         if (!stripe) {
-            console.warn('⚠️ STRIPE_SECRET_KEY is missing. Simulating success.');
-            return NextResponse.json({ url: `${origin}/?payment=success` });
+            throw new Error('STRIPE_SECRET_KEY is missing');
         }
 
         const session = await stripe.checkout.sessions.create({
