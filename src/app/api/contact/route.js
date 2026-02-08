@@ -37,7 +37,7 @@ ${request}
         const toEmail = 'abbycooks21@gmail.com';
 
         const { data, error } = await resend.emails.send({
-            from: 'Abby Kookz Website <onboarding@resend.dev>',
+            from: 'Abby Kookz <orders@abbykookz.com>',
             to: toEmail,
             reply_to: email,
             subject: `Abby Kookz ${isReview ? 'Review' : 'Catering Request'}: ${name}`,

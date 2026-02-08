@@ -39,7 +39,7 @@ export async function POST(req) {
         // 1. Send Email to Abby
         try {
             await resend.emails.send({
-                from: 'Abby Kookz Orders <onboarding@resend.dev>',
+                from: 'Abby Kookz <orders@abbykookz.com>',
                 to: 'abbycooks21@gmail.com',
                 subject: 'New PAID Catering Order!',
                 text: `
@@ -66,7 +66,7 @@ Step: Confirm pickup/delivery time with customer.
         if (customerEmail) {
             try {
                 await resend.emails.send({
-                    from: 'Abby Kookz <onboarding@resend.dev>',
+                    from: 'Abby Kookz <orders@abbykookz.com>',
                     to: customerEmail,
                     subject: 'Your Abby Kookz Order Confirmation',
                     text: `
