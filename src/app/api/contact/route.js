@@ -3,13 +3,16 @@ import { Resend } from 'resend';
 
 export async function POST(req) {
     try {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        const { name, email, phone, date, guests, service, address, request, budget } = await req.json();
-
         if (!process.env.RESEND_API_KEY) {
             console.error('ERROR: RESEND_API_KEY is missing');
-            return NextResponse.json({ success: false, message: 'Server configuration error: Missing API Key' }, { status: 500 });
+            return NextResponse.json({
+                success: false,
+                message: 'Internal Error: RESEND_API_KEY is missing in Vercel environment variables.'
+            }, { status: 500 });
         }
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        const { name, email, phone, date, guests, service, address, request, budget } = await req.json();
 
         // Determine the type of request
         const isReview = service === 'Review';

@@ -5,6 +5,10 @@ import { Resend } from 'resend';
 const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 export async function POST(req) {
+    if (!process.env.RESEND_API_KEY) {
+        console.error('ERROR: RESEND_API_KEY is missing');
+        return NextResponse.json({ received: true, message: 'Skipped: Missing API Key' });
+    }
     const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await req.text();
     const sig = req.headers.get('stripe-signature');
