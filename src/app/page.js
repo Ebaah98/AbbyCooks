@@ -447,16 +447,18 @@ export default function Home() {
                                     body: JSON.stringify(data)
                                 });
 
+                                const result = await response.json();
+
                                 if (response.ok) {
                                     setCustomFormState({ submitting: false, success: true });
                                     e.target.reset();
                                 } else {
-                                    alert('There was an error sending your request. Please try again.');
+                                    alert(`Error: ${result.message || 'There was an error sending your request. Please try again.'}`);
                                     setCustomFormState({ submitting: false, success: false });
                                 }
                             } catch (error) {
                                 console.error('Submission Error:', error);
-                                alert('There was an error sending your request. Please try again.');
+                                alert(`Error: ${error.message || 'There was an error sending your request. Please try again.'}`);
                                 setCustomFormState({ submitting: false, success: false });
                             }
                         }}

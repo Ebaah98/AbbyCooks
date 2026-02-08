@@ -7,7 +7,8 @@ export async function POST(req) {
         const { name, email, phone, date, guests, service, address, request, budget } = await req.json();
 
         if (!process.env.RESEND_API_KEY) {
-            throw new Error('RESEND_API_KEY is not configured');
+            console.error('ERROR: RESEND_API_KEY is missing');
+            return NextResponse.json({ success: false, message: 'Server configuration error: Missing API Key' }, { status: 500 });
         }
 
         // Determine the type of request
@@ -32,23 +33,31 @@ ${request}
 ------------------------------------------
     `;
 
+        // Using a variable for the recipient so it's easier to change
+        const toEmail = 'abbycooks21@gmail.com';
+
         const { data, error } = await resend.emails.send({
             from: 'Abby Kookz Website <onboarding@resend.dev>',
-            to: 'abbycooks21@gmail.com',
+            to: toEmail,
             reply_to: email,
             subject: `Abby Kookz ${isReview ? 'Review' : 'Catering Request'}: ${name}`,
             text: bodyText,
         });
 
         if (error) {
-            console.error('Resend Error:', error);
-            return NextResponse.json({ success: false, message: 'Failed to send request via Resend' }, { status: 500 });
+            console.error('RESEND ERROR:', error);
+            // Return the specific error from Resend so we can debug it
+            return NextResponse.json({
+                success: false,
+                message: error.message,
+                code: error.name
+            }, { status: 500 });
         }
 
-        console.log(`✅ Email sent successfully via Resend for request from: ${name}`, data);
+        console.log(`✅ Email sent successfully via Resend to ${toEmail}`);
         return NextResponse.json({ success: true, message: 'Request sent successfully' });
     } catch (error) {
-        console.error('API Error:', error);
-        return NextResponse.json({ success: false, message: 'Failed to send request' }, { status: 500 });
+        console.error('UNEXPECTED API ERROR:', error);
+        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 }
