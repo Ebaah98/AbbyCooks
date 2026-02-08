@@ -1,0 +1,347 @@
+{
+  "gallery": [
+    {
+      "src": "./assets/menu_flyer.jpg",
+      "alt": "Abby Kookz Full Catering Menu"
+    },
+    {
+      "src": "./assets/food_01.jpg",
+      "alt": "Abby Kookz dish 1"
+    },
+    {
+      "src": "./assets/food_02.jpg",
+      "alt": "Abby Kookz dish 2"
+    },
+    {
+      "src": "./assets/food_03.jpg",
+      "alt": "Abby Kookz dish 3"
+    },
+    {
+      "src": "./assets/food_04.jpg",
+      "alt": "Abby Kookz dish 4"
+    },
+    {
+      "src": "./assets/food_05.jpg",
+      "alt": "Abby Kookz dish 5"
+    },
+    {
+      "src": "./assets/food_06.jpg",
+      "alt": "Abby Kookz dish 6"
+    },
+    {
+      "src": "./assets/food_07.jpg",
+      "alt": "Abby Kookz dish 7"
+    },
+    {
+      "src": "./assets/food_08.jpg",
+      "alt": "Abby Kookz dish 8"
+    },
+    {
+      "src": "./assets/food_09.jpg",
+      "alt": "Abby Kookz dish 9"
+    },
+    {
+      "src": "./assets/food_10.jpg",
+      "alt": "Abby Kookz dish 10"
+    },
+    {
+      "src": "./assets/food_11.jpg",
+      "alt": "Abby Kookz dish 11"
+    },
+    {
+      "src": "./assets/food_12.jpg",
+      "alt": "Abby Kookz dish 12"
+    },
+    {
+      "src": "./assets/food_13.jpg",
+      "alt": "Abby Kookz dish 13"
+    },
+    {
+      "src": "./assets/food_14.jpg",
+      "alt": "Abby Kookz dish 14"
+    },
+    {
+      "src": "./assets/food_15.jpg",
+      "alt": "Abby Kookz dish 15"
+    },
+    {
+      "src": "./assets/food_16.jpg",
+      "alt": "Abby Kookz dish 16"
+    }
+  ],
+  "thumbs": [
+    {
+      "src": "./assets/menu_flyer.jpg",
+      "full": "./assets/menu_flyer.jpg",
+      "alt": "Abby Kookz Full Catering Menu"
+    },
+    {
+      "src": "./assets/thumb_01.jpg",
+      "full": "./assets/food_01.jpg",
+      "alt": "Abby Kookz dish 1"
+    },
+    {
+      "src": "./assets/thumb_02.jpg",
+      "full": "./assets/food_02.jpg",
+      "alt": "Abby Kookz dish 2"
+    },
+    {
+      "src": "./assets/thumb_03.jpg",
+      "full": "./assets/food_03.jpg",
+      "alt": "Abby Kookz dish 3"
+    },
+    {
+      "src": "./assets/thumb_04.jpg",
+      "full": "./assets/food_04.jpg",
+      "alt": "Abby Kookz dish 4"
+    },
+    {
+      "src": "./assets/thumb_05.jpg",
+      "full": "./assets/food_05.jpg",
+      "alt": "Abby Kookz dish 5"
+    },
+    {
+      "src": "./assets/thumb_06.jpg",
+      "full": "./assets/food_06.jpg",
+      "alt": "Abby Kookz dish 6"
+    },
+    {
+      "src": "./assets/thumb_07.jpg",
+      "full": "./assets/food_07.jpg",
+      "alt": "Abby Kookz dish 7"
+    },
+    {
+      "src": "./assets/thumb_08.jpg",
+      "full": "./assets/food_08.jpg",
+      "alt": "Abby Kookz dish 8"
+    },
+    {
+      "src": "./assets/thumb_09.jpg",
+      "full": "./assets/food_09.jpg",
+      "alt": "Abby Kookz dish 9"
+    },
+    {
+      "src": "./assets/thumb_10.jpg",
+      "full": "./assets/food_10.jpg",
+      "alt": "Abby Kookz dish 10"
+    },
+    {
+      "src": "./assets/thumb_11.jpg",
+      "full": "./assets/food_11.jpg",
+      "alt": "Abby Kookz dish 11"
+    },
+    {
+      "src": "./assets/thumb_12.jpg",
+      "full": "./assets/food_12.jpg",
+      "alt": "Abby Kookz dish 12"
+    },
+    {
+      "src": "./assets/thumb_13.jpg",
+      "full": "./assets/food_13.jpg",
+      "alt": "Abby Kookz dish 13"
+    },
+    {
+      "src": "./assets/thumb_14.jpg",
+      "full": "./assets/food_14.jpg",
+      "alt": "Abby Kookz dish 14"
+    },
+    {
+      "src": "./assets/thumb_15.jpg",
+      "full": "./assets/food_15.jpg",
+      "alt": "Abby Kookz dish 15"
+    },
+    {
+      "src": "./assets/thumb_16.jpg",
+      "full": "./assets/food_16.jpg",
+      "alt": "Abby Kookz dish 16"
+    }
+  ],
+  "menu_sections": [
+    {
+      "title": "Rice Dishes",
+      "items": [
+        {
+          "name": "Ghana Jollof",
+          "desc": "Choice of plain jollof or jollof with goat meat.",
+          "tags": [
+            "Ghana"
+          ],
+          "addons": [
+            "Fried plantains",
+            "Ghana salad",
+            "Shito (hot/mild)"
+          ],
+          "img": "./assets/food_09.jpg"
+        },
+        {
+          "name": "Fried Rice",
+          "desc": "Party-style fried rice, perfect for trays and events.",
+          "tags": [
+            "Party Tray"
+          ],
+          "addons": [
+            "Ghana salad",
+            "Shito (hot/mild)"
+          ],
+          "img": "./assets/food_16.jpg"
+        },
+        {
+          "name": "Anwa Mo (Ghana Oil Rice)",
+          "desc": "Ghana oil rice with hot pepper and fried eggs.",
+          "tags": [
+            "Ghana"
+          ],
+          "addons": [
+            "Fried plantains"
+          ],
+          "img": "./assets/food_07.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Swallows & Soups",
+      "items": [
+        {
+          "name": "Tuo Zaafi (TZ)",
+          "desc": "Traditional TZ \u2014 tray available.",
+          "tags": [
+            "Northern Ghana"
+          ],
+          "addons": [
+            "Extra soup",
+            "Extra protein"
+          ],
+          "img": "./assets/food_08.jpg"
+        },
+        {
+          "name": "Banku + Okra",
+          "desc": "Soft banku served with okra soup.",
+          "tags": [
+            "Ghana"
+          ],
+          "addons": [
+            "Extra okra",
+            "Extra protein"
+          ],
+          "img": "./assets/food_05.jpg"
+        },
+        {
+          "name": "Banku + Pepper + Fish",
+          "desc": "Banku with pepper sauce and fish.",
+          "tags": [
+            "Ghana"
+          ],
+          "addons": [
+            "Extra pepper",
+            "Extra fish"
+          ],
+          "img": "./assets/food_06.jpg"
+        },
+        {
+          "name": "Fufu + Soup",
+          "desc": "Classic fufu served with soup (availability varies).",
+          "tags": [
+            "Ghana"
+          ],
+          "addons": [
+            "Extra protein"
+          ],
+          "img": "./assets/food_14.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Proteins & Sides",
+      "items": [
+        {
+          "name": "Suya / Spiced Skewers",
+          "desc": "Juicy, spicy skewers \u2014 perfect add-on or tray.",
+          "tags": [
+            "Add-on"
+          ],
+          "addons": [
+            "Extra spice"
+          ],
+          "img": "./assets/food_01.jpg"
+        },
+        {
+          "name": "Fried Chicken",
+          "desc": "Seasoned fried chicken pieces for trays.",
+          "tags": [
+            "Add-on"
+          ],
+          "addons": [
+            "Extra pieces"
+          ],
+          "img": "./assets/food_04.jpg"
+        },
+        {
+          "name": "Fried Plantains",
+          "desc": "Sweet fried plantains \u2014 the perfect side.",
+          "tags": [
+            "Side"
+          ],
+          "addons": [
+            "Extra portion"
+          ],
+          "img": "./assets/food_11.jpg"
+        }
+      ]
+    },
+    {
+      "title": "Sauces, Extras & Drinks",
+      "items": [
+        {
+          "name": "Shito",
+          "desc": "Available in sizes. Choose hot or mild.",
+          "tags": [
+            "Sauce"
+          ],
+          "addons": [
+            "Small / Medium / Large"
+          ],
+          "img": "./assets/food_12.jpg"
+        },
+        {
+          "name": "Ghana Salad",
+          "desc": "Fresh crunchy salad add-on for jollof or fried rice.",
+          "tags": [
+            "Add-on"
+          ],
+          "addons": [
+            "Small / Large"
+          ],
+          "img": "./assets/food_02.jpg"
+        },
+        {
+          "name": "Mashed Kenkey (Drink)",
+          "desc": "Refreshing kenkey drink (served cold).",
+          "tags": [
+            "Drink"
+          ],
+          "addons": [
+            "Ice"
+          ],
+          "img": "./assets/food_03.jpg"
+        },
+        {
+          "name": "Mashed / Ice Kenkey",
+          "desc": "Creamy chilled kenkey drink (smoothie-style).",
+          "tags": [
+            "Drink"
+          ],
+          "addons": [
+            "Small (12 oz) \u2014 $6",
+            "Medium (16 oz) \u2014 $9",
+            "Large (24 oz) \u2014 $12"
+          ],
+          "img": "./assets/menu_flyer.jpg"
+        }
+      ]
+    }
+  ],
+  "instagram": {
+    "handle": "abbykookz",
+    "url": "https://www.instagram.com/abbykookz/"
+  }
+}
