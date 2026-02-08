@@ -578,7 +578,7 @@ function MenuPage() {
                                     if (data.url) {
                                         window.location.href = data.url;
                                     } else {
-                                        alert('Error creating checkout session. Please try again.');
+                                        alert(`Error: ${data.message || 'Creating checkout session failed'}. Please try again.`);
                                         setIsPaying(false);
                                     }
                                 } catch (error) {
