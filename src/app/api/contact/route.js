@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
     try {
         const { name, email, phone, date, guests, service, address, request, budget } = await req.json();
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+        if (!process.env.RESEND_API_KEY) {
+            throw new Error('RESEND_API_KEY is not configured');
+        }
 
         // Determine the type of request
         const isReview = service === 'Review';
@@ -35,19 +33,23 @@ ${request}
 ------------------------------------------
     `;
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
+        const { data, error } = await resend.emails.send({
+            from: 'Abby Kookz Website <onboarding@resend.dev>',
             to: 'abbycooks21@gmail.com',
+            reply_to: email,
             subject: `Abby Kookz ${isReview ? 'Review' : 'Catering Request'}: ${name}`,
             text: bodyText,
-            replyTo: email
-        };
+        });
 
-        await transporter.sendMail(mailOptions);
-        console.log(`✅ Email sent successfully to abbycooks21@gmail.com for request from: ${name}`);
+        if (error) {
+            console.error('Resend Error:', error);
+            return NextResponse.json({ success: false, message: 'Failed to send request via Resend' }, { status: 500 });
+        }
+
+        console.log(`✅ Email sent successfully via Resend for request from: ${name}`, data);
         return NextResponse.json({ success: true, message: 'Request sent successfully' });
     } catch (error) {
-        console.error('Email Error:', error);
+        console.error('API Error:', error);
         return NextResponse.json({ success: false, message: 'Failed to send request' }, { status: 500 });
     }
 }
