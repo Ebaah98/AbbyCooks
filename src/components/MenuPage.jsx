@@ -212,6 +212,14 @@ function MenuPage() {
         addons: []
     });
 
+    // Checkout Fields
+    const [orderType, setOrderType] = useState(''); // 'Pickup' or 'Delivery'
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [deliveryAddress, setDeliveryAddress] = useState('');
+    const [orderTime, setOrderTime] = useState(''); // 'ASAP' or 'Scheduled'
+    const [scheduledDate, setScheduledDate] = useState('');
+    const [scheduledTime, setScheduledTime] = useState('');
+
     const openCustomizer = (item) => {
         setCustomizing(item);
         setCurrentCustomization({
@@ -264,7 +272,20 @@ function MenuPage() {
     };
 
     const getCartTotal = () => {
-        return cart.reduce((sum, item) => sum + item.price, 0);
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        if (orderType === 'Delivery') {
+            total += 5;
+        }
+        return total;
+    };
+
+    const isCheckoutValid = () => {
+        if (!orderType) return false;
+        if (!phoneNumber) return false;
+        if (orderType === 'Delivery' && !deliveryAddress) return false;
+        if (!orderTime) return false;
+        if (orderTime === 'Scheduled' && (!scheduledDate || !scheduledTime)) return false;
+        return true;
     };
 
     const toggleAddon = (addon) => {
@@ -549,29 +570,130 @@ function MenuPage() {
 
                 {cart.length > 0 && (
                     <div className="cart-footer">
-                        <div className="cart-total-row">
-                            <span>Total</span>
-                            <span className="cart-total-price">${getCartTotal()}</span>
+                        <div className="checkout-fields">
+                            <div className="field-group">
+                                <label>Order Type <span className="required">*</span></label>
+                                <select
+                                    value={orderType}
+                                    onChange={(e) => {
+                                        setOrderType(e.target.value);
+                                        if (e.target.value === 'Pickup') setDeliveryAddress('');
+                                    }}
+                                    className="checkout-select"
+                                >
+                                    <option value="">Select Order Type</option>
+                                    <option value="Pickup">Pickup</option>
+                                    <option value="Delivery">Delivery</option>
+                                </select>
+                            </div>
+
+                            <div className="field-group">
+                                <label>Phone Number <span className="required">*</span></label>
+                                <input
+                                    type="tel"
+                                    placeholder="Enter Phone Number"
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    className="checkout-input"
+                                />
+                            </div>
+
+                            {orderType === 'Delivery' && (
+                                <div className="field-group">
+                                    <label>Delivery Address <span className="required">*</span></label>
+                                    <textarea
+                                        placeholder="Enter Full Delivery Address"
+                                        value={deliveryAddress}
+                                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                                        className="checkout-textarea"
+                                    />
+                                </div>
+                            )}
+
+                            <div className="field-group">
+                                <label>Order Time <span className="required">*</span></label>
+                                <select
+                                    value={orderTime}
+                                    onChange={(e) => setOrderTime(e.target.value)}
+                                    className="checkout-select"
+                                >
+                                    <option value="">Select Order Time</option>
+                                    <option value="ASAP">ASAP</option>
+                                    <option value="Scheduled">Schedule for Later</option>
+                                </select>
+                            </div>
+
+                            {orderTime === 'Scheduled' && (
+                                <div className="datetime-row">
+                                    <div className="field-group">
+                                        <label>Date <span className="required">*</span></label>
+                                        <input
+                                            type="date"
+                                            value={scheduledDate}
+                                            onChange={(e) => setScheduledDate(e.target.value)}
+                                            className="checkout-input"
+                                            min={new Date().toISOString().split('T')[0]}
+                                        />
+                                    </div>
+                                    <div className="field-group">
+                                        <label>Time <span className="required">*</span></label>
+                                        <input
+                                            type="time"
+                                            value={scheduledTime}
+                                            onChange={(e) => setScheduledTime(e.target.value)}
+                                            className="checkout-input"
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
+
+                        <div className="cart-total-section">
+                            <div className="cart-total-row">
+                                <span>Subtotal</span>
+                                <span>${cart.reduce((sum, item) => sum + item.price, 0)}</span>
+                            </div>
+                            {orderType === 'Delivery' && (
+                                <div className="cart-total-row delivery-fee">
+                                    <span>Delivery Fee</span>
+                                    <span>$5.00</span>
+                                </div>
+                            )}
+                            <div className="cart-total-row final-total">
+                                <span>Total</span>
+                                <span className="cart-total-price">${getCartTotal()}</span>
+                            </div>
+                        </div>
+
                         <button
                             className="btn-checkout"
-                            disabled={isPaying}
+                            disabled={isPaying || !isCheckoutValid()}
                             onClick={async () => {
                                 setIsPaying(true);
                                 try {
-                                    const orderDetails = cart.map(item => {
-                                        let details = `- ${item.item.name} (${item.customization.size})`;
+                                    const itemsText = cart.map(item => {
+                                        let details = `${item.item.name} (${item.customization.size})`;
                                         if (item.customization.protein) details += `, Protein: ${item.customization.protein}`;
                                         if (item.customization.soup) details += `, Soup: ${item.customization.soup}`;
                                         if (item.customization.heat) details += `, Heat: ${item.customization.heat}`;
                                         if (item.customization.addons.length > 0) details += `, Add-ons: ${item.customization.addons.map(a => a.name).join(', ')}`;
                                         return details;
-                                    }).join('\n');
+                                    }).join(' | ');
 
                                     const response = await fetch('/api/checkout', {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ cart, orderDetails })
+                                        body: JSON.stringify({
+                                            cart,
+                                            orderDetails: itemsText,
+                                            orderType,
+                                            phoneNumber,
+                                            deliveryAddress,
+                                            orderTime,
+                                            scheduledDate,
+                                            scheduledTime,
+                                            totalAmount: getCartTotal()
+                                        })
                                     });
 
                                     const data = await response.json();
@@ -588,11 +710,12 @@ function MenuPage() {
                                 }
                             }}
                         >
-                            {isPaying ? 'Processing...' : 'Pay Now'}
+                            {isPaying ? 'Processing...' : (isCheckoutValid() ? 'Pay Now' : 'Complete Details to Pay')}
                         </button>
                         <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <div style={{ fontSize: '13px', color: '#666' }}>✅ Step 1: Pay for your order</div>
-                            <div style={{ fontSize: '13px', color: '#666' }}>✅ Step 2: Order sent + Confirmation & Pickup/Delivery</div>
+                            <div style={{ fontSize: '12px', color: '#666' }}>✅ 1. Pay securely via Stripe</div>
+                            <div style={{ fontSize: '12px', color: '#666' }}>✅ 2. Confirmation email sent to you & Abby</div>
+                            <div style={{ fontSize: '12px', color: '#666' }}>✅ 3. Food prepared for your selected time</div>
                         </div>
                     </div>
                 )}

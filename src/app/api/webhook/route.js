@@ -34,31 +34,61 @@ export async function POST(req) {
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-        const orderDetails = session.metadata.orderDetails;
+        const {
+            orderDetails,
+            orderType,
+            phoneNumber,
+            deliveryAddress,
+            orderTime,
+            scheduledDate,
+            scheduledTime,
+            deliveryFee
+        } = session.metadata;
+
         const customerName = session.customer_details?.name || 'Customer';
         const customerEmail = session.customer_details?.email;
         const amountPaid = (session.amount_total / 100).toFixed(2);
         const paymentId = session.payment_intent;
+
+        const scheduleInfo = orderTime === 'Scheduled'
+            ? `\nScheduled Date: ${scheduledDate}\nScheduled Time: ${scheduledTime}`
+            : '';
+
+        const deliveryInfo = orderType === 'Delivery'
+            ? `\nDelivery Address: ${deliveryAddress}\nDelivery Fee: $${deliveryFee}.00`
+            : '';
+
+        const fullOrderSummary = `
+ORDER SUMMARY
+-------------
+Order Type: ${orderType}
+Order Time: ${orderTime}${scheduleInfo}
+Phone: ${phoneNumber}${deliveryInfo}
+
+ITEMS ORDERED:
+${orderDetails.split(' | ').join('\n')}
+
+Payment Status: PAID
+Total Paid: $${amountPaid}
+`;
 
         // 1. Send Email to Abby
         try {
             await resend.emails.send({
                 from: 'Abby Kookz <orders@abbykookz.com>',
                 to: 'abbycooks21@gmail.com',
-                subject: 'New PAID Catering Order!',
+                subject: `New ${orderType} Order - ${customerName}`,
                 text: `
-NEW PAID CATERING ORDER RECEIVED
---------------------------------
+NEW PAID ORDER RECEIVED
+-----------------------
 Customer: ${customerName}
 Email: ${customerEmail || 'N/A'}
-Amount Paid: $${amountPaid}
 Payment ID: ${paymentId}
 Date: ${new Date().toLocaleString()}
 
-ORDER DETAILS:
-${orderDetails}
+${fullOrderSummary}
 
-Step: Confirm pickup/delivery time with customer.
+Step: Prepare order for ${orderTime === 'ASAP' ? 'ASAP' : scheduledDate + ' at ' + scheduledTime}.
                 `
             });
             console.log('✅ Admin notification sent via Resend');
@@ -78,8 +108,7 @@ Hi ${customerName},
 
 Thank you for your order! We've received your payment of $${amountPaid}.
 
-ORDER DETAILS:
-${orderDetails}
+${fullOrderSummary}
 
 We are now preparing your order. If you have any questions, please reply to this email or contact us at abbycooks21@gmail.com.
 
